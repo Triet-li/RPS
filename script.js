@@ -6,6 +6,10 @@ function getComputerChoice()
     return choices[randomValue];
 }
 
+
+let playerScore = 0;
+let computerScore = 0;
+
 function playRound(playerSection, computerSection)
 {
     let player = playerSection.toLowerCase();
@@ -14,11 +18,13 @@ function playRound(playerSection, computerSection)
     if( (player === "rock" && computer === "scissors") || (player === "paper" && computer === "rock") ||
     (player === "scissors" && computer === "paper"))
     {
+       
         return 1;
     }
     else if( (player === "rock" && computer === "paper") || (player === "paper" && computer === "scissors") ||
     (player === "scissors" && computer === "rock"))
     {
+       
         return -1;
     }
     if( (player === "rock" && computer === "rock") || (player === "scissors" && computer === "scissors") ||
@@ -29,40 +35,59 @@ function playRound(playerSection, computerSection)
    
 }
 
-function game()
-{
-    alert("Welcome to Rock, Paper Scissors game, you're gonna fight against a computer. Be prepared!!");
-    let playerScore = 0;
-    let computerScore = 0;
-    let rounds = Number(prompt("How many rounds do you want to play? "));
-    let playerSection, computerSection;
-    let result;
+function handleButtonClicked(event) {
+    let playerSection = event.target.textContent;
+    let computerSection = getComputerChoice();
+    const result = playRound(playerSection, computerSection);
+    const roundResult = document.createElement('div');
+    const body = document.querySelector('body');
 
-    for(let i = 1; i <= rounds; ++i)
-    {
-        computerSection = getComputerChoice();
-        playerSection = prompt("Rock, Paper or Scissors: ");
-        result = playRound(playerSection, computerSection);
-        if(result === 1)
+    
+
+    if (result === 1) {
+        roundResult.textContent = `You win this round!! ${playerSection} beats ${computerSection}`;
+        ++playerScore;
+        roundResult.style.cssText = "text-align: center";
+        body.appendChild(roundResult);
+      } else if (result === -1) {
+        roundResult.textContent = `You lose this round!! ${playerSection} is beaten by ${computerSection}`;
+        ++computerScore;
+        roundResult.style.cssText = "text-align: center";
+        body.appendChild(roundResult);
+
+      } else {
+        roundResult.textContent = "A tie for this round!";
+        roundResult.style.cssText = "text-align: center";
+        body.appendChild(roundResult);
+
+      }
+      document.querySelector('.yourScore').innerHTML = `Your score: ${playerScore}`;
+    document.querySelector('.myScore').innerHTML = `My score: ${computerScore}`;
+
+    if(playerScore === 5 || computerScore === 5) {
+        if(playerScore > computerScore)
         {
-            console.log(`You win!! ${playerSection} beats ${computerSection}`);
-            ++playerScore;
+            let result = prompt("You win!! Wanna play again champion? ");
+            if(result != null)
+                window.location.reload();
         }
-        else if(result === -1)
+        else
         {
-            console.log(`You lose!! ${playerSection} is beaten by ${computerSection}`);
-            ++computerScore;
+            let result = prompt("Ahh you loser!! Want a rematch? ");
+            if(result != null)
+                window.location.reload();
         }
-        else if(result === 0)
-            console.log("A tie!!!");
     }
-
-    if(playerScore > computerScore)
-        alert("You Win!! Congratulation!!");
-    else if(playerScore < computerScore)
-        alert("You lose!! Good luck next time @-@");
-    else
-        alert("A tie?? So boring!!");
+        
 }
 
-game();
+   // buttons is a node list. It looks and acts much like an array.
+const buttons = document.querySelectorAll('button');
+
+// we use the .forEach method to iterate through each button
+buttons.forEach((button) => {
+
+  // and for each one we add a 'click' listener
+  button.addEventListener('click', handleButtonClicked);
+});
+

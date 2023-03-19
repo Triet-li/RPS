@@ -1,0 +1,34 @@
+body {
+    font-size: large;
+    background-color: pink;
+}
+
+h1, h1 + p {
+    text-align: center;
+}
+
+h1 {
+    color: red;
+}
+
+.buttons {
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+}
+
+button {
+    width: 100px;
+    height: 100px;
+    border: 3 dashed pink;
+    background-color: darkcyan;
+    color: white;
+}
+
+.scores {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
