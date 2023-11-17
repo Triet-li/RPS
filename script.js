@@ -9,6 +9,9 @@ function getComputerChoice()
 
 let playerScore = 0;
 let computerScore = 0;
+const roundResult = document.createElement('div');
+const body = document.querySelector('body');
+body.appendChild(roundResult);
 
 function playRound(playerSection, computerSection)
 {
@@ -36,48 +39,50 @@ function playRound(playerSection, computerSection)
 }
 
 function handleButtonClicked(event) {
+
+    if(playerScore === 5 || computerScore === 5) {
+        if(playerScore > computerScore)
+        {
+            let result = prompt("You win!! Wanna play again champion? ");
+            if(result.toLowerCase() != "no" && result != null)
+                window.location.reload();
+        }
+        else
+        {
+            let result = prompt("Ahh you loser!! Want a rematch? ");
+            if(result.toLowerCase() != "no" && result != null)
+                window.location.reload();
+        }
+        return
+    }
+
+
     let playerSection = event.target.textContent;
     let computerSection = getComputerChoice();
     const result = playRound(playerSection, computerSection);
-    const roundResult = document.createElement('div');
-    const body = document.querySelector('body');
-
+   
     
 
     if (result === 1) {
         roundResult.textContent = `You win this round!! ${playerSection} beats ${computerSection}`;
         ++playerScore;
         roundResult.style.cssText = "text-align: center";
-        body.appendChild(roundResult);
+      
       } else if (result === -1) {
         roundResult.textContent = `You lose this round!! ${playerSection} is beaten by ${computerSection}`;
         ++computerScore;
         roundResult.style.cssText = "text-align: center";
-        body.appendChild(roundResult);
+      
 
       } else {
         roundResult.textContent = "A tie for this round!";
         roundResult.style.cssText = "text-align: center";
-        body.appendChild(roundResult);
+        
 
-      }
-      document.querySelector('.yourScore').innerHTML = `Your score: ${playerScore}`;
+        }
+    document.querySelector('.yourScore').innerHTML = `Your score: ${playerScore}`;
     document.querySelector('.myScore').innerHTML = `My score: ${computerScore}`;
 
-    if(playerScore === 5 || computerScore === 5) {
-        if(playerScore > computerScore)
-        {
-            let result = prompt("You win!! Wanna play again champion? ");
-            if(result != null)
-                window.location.reload();
-        }
-        else
-        {
-            let result = prompt("Ahh you loser!! Want a rematch? ");
-            if(result != null)
-                window.location.reload();
-        }
-    }
         
 }
 
